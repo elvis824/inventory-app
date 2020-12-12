@@ -1,7 +1,7 @@
 # Inventory Application
 
 [![Build Status](https://travis-ci.org/elvis824/inventory-app.svg?branch=master)](https://travis-ci.org/elvis824/inventory-app)
-[![codecov](https://codecov.io/gh/elvis824/inventory-app/branch/master/graph/badge.svg?token=30FUH5ILME)](https://codecov.io/gh/elvis824/inventory-app)
+[![codecov](https://codecov.io/gh/elvis824/inventory-app/branch/master/graph/badge.svg?token=pS9hx7OSij)](https://codecov.io/gh/elvis824/inventory-app)
 
 ## Abstract
 

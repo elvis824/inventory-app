@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info">
+    <Appenders>
+        <Console name="Console-Appender" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5p [%t] %c{1} - %m%n" />
+        </Console>
+        <RollingRandomAccessFile
+                name="RAF-Appender"
+                fileName="${sys:log.path:-logs}/inventory-app.log"
+                filePattern="${sys:log.path:-logs}/invnetory-app_%d{yyyyMMddHHmm}.log.gz">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] %c{1} - %m%n"/>
+            <Policies>
+                <OnStartupTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10">
+                <Delete basePath="${sys:log.path:-logs}" maxDepth="0">
+                    <IfLastModified age="7d" />
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingRandomAccessFile>
+    </Appenders>
+
+    <Loggers>
+        <AsyncRoot level="debug">
+            <AppenderRef ref="RAF-Appender"/>
+            <AppenderRef ref="Console-Appender" />
+        </AsyncRoot>
+    </Loggers>
+</Configuration>

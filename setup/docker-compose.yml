@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  ############################
+  #       Inventory-DB       #
+  ############################
+  inventory-db:
+    image: postgres:alpine
+    restart: always
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ${DB_VOLUME:-./data}:/var/lib/postgresql/data
+      - ./sql/tables.sql:/docker-entrypoint-initdb.d/tables.sql
+    container_name: inventory-db
+
+
+  ############################
+  #       Inventory-App      #
+  ############################
+  inventory-app:
+    image: inventory_app:test
+    build:
+      context: ../
+      dockerfile: ./setup/docker/build-app
+    restart: always
+    ports:
+      - "${APP_PORT:-8080}:8080"
+    volumes:
+      - ./scripts/wait-for-it.sh:/wait-for-it.sh
+      - ${APP_LOG_PATH:-./logs}:/var/log/inventory-app
+    entrypoint: "/wait-for-it.sh inventory-db:5432 -- java -Dspring.profiles.active=test -Dlog.path=/var/log/inventory-app -DXX:+UseG1GC -Xms512m -Xmx2g -jar inventory-app-1.0.0-SNAPSHOT.jar"
+    depends_on:
+      - inventory-db
+    container_name: inventory-app

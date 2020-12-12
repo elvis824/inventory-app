@@ -1,0 +1,10 @@
+/.idea
+/target
+/logs
+*.class
+*.log
+*.iml
+
+# project specific
+/setup/logs
+/setup/data

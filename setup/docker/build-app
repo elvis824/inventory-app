@@ -1,0 +1,10 @@
+FROM maven:3.6.1-jdk-8-alpine
+
+# Adding source folder
+ADD . /inventory-app
+
+# build binary
+WORKDIR /inventory-app
+RUN mvn install
+
+WORKDIR /inventory-app/target
